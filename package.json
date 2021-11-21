@@ -1,0 +1,16 @@
+{
+  "name": "telegram-zamenbot",
+  "version": "1.0.0",
+  "description": "Roboto, kiun donos al vi difinojn kaj tradukojn de vortoj",
+  "main": "index.js",
+  "author": "Kristian Soto <kroyxlab@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "dotenv": "^10.0.0",
+    "node-fetch": "2",
+    "telegraf": "^4.4.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15"
+  }
+}
