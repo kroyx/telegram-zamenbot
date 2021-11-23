@@ -13,11 +13,6 @@ Diru ion al mi
 /analizu - Mi donos al vi la vorton dividitan en siaj partoj
 /help - referenco de komandoj`;
 
-bot.use((ctx, next) => {
-	console.log(`${ctx.from.username} uzis la komandon ${ctx.message.text}`);
-	next();
-})
-
 bot.start((ctx) => {
 	ctx.reply("Saluton mi estas SimplaVortaro Roboto");
 	ctx.reply(helpMesagxo);
@@ -27,14 +22,27 @@ bot.help((ctx) => {
 	ctx.reply(helpMesagxo);
 });
 
-// Command Handler
+// Commands Handler
 const komandDosieroj = fs
-	.readdirSync("./komandoj")
+	.readdirSync("./commands")
 	.filter((dosiero) => dosiero.endsWith(".js"));
 
 for (const dosiero of komandDosieroj) {
-	const command = require(`./komandoj/${dosiero}`);
+	const command = require(`./commands/${dosiero}`);
 	bot.command(command.name, (ctx, next) => command.execute(ctx, next));
 }
+
+// Actions Handler
+const agDosieroj = fs
+	.readdirSync("./actions")
+	.filter((dosiero) => dosiero.endsWith(".js"));
+
+for (const dosiero of agDosieroj) {
+	const action = require(`./actions/${dosiero}`);
+	bot.action(action.name, (ctx, next) => action.execute(ctx, next));
+}
+
+// Context Db
+bot.context.db = require("./botDb");
 
 bot.launch();
