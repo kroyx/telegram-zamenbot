@@ -45,4 +45,6 @@ for (const dosiero of agDosieroj) {
 // Context Db
 bot.context.db = require("./botDb");
 
-bot.launch();
+bot.launch({
+	dropPendingUpdates: true,
+});
