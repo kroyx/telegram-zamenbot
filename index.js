@@ -7,10 +7,11 @@ const bot = new Telegraf(process.env.BOTTOKEN);
 
 const helpMesagxo = `
 Diru ion al mi
-/start - Komencu la roboton
-/difinu - Mi donos al vi difinon de vorto
-/traduku - Mi donos al vi tradukojn de vorto
-/analizu - Mi donos al vi la vorton dividitan en siaj partoj
+/start - Komencu la roboton.
+/difinu - Mi donos al vi difinon de vorto.
+/traduku - Mi donos al vi tradukojn de vorto.
+/analizu - Mi donos al vi la vorton dividitan en siaj partoj.
+/kursoj - Mi donos al vi liston de esperantaj kursoj.
 /help - referenco de komandoj`;
 
 bot.start((ctx) => {
