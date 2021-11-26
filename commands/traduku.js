@@ -39,10 +39,20 @@ module.exports = {
 				.map((traduko) => `${traduko.lingvo}: ${traduko.traduko}.`)
 				.sort()
 				.reduce((a, b) => `${a}\n${b}`);
-			const respondo = `[${vorto.toUpperCase()}](http://www.simplavortaro.org/ser%c5%89o?s=${vorto.toLowerCase()}):\n\n\`\`\`\n${tradukoj}\`\`\`\n\n[Legu pli pri la vorto](http://www.simplavortaro.org/ser%c4%89o?s=${vorto.toLowerCase()})`;
-			ctx.reply(respondo, {
+			const respondo = `[${vorto.toUpperCase()}](http://www.simplavortaro.org/ser%c4%89o?s=${vorto.toLowerCase()}):\n\n\`\`\`\n${tradukoj}\`\`\``;
+			ctx.telegram.sendMessage(ctx.chat.id, respondo, {
 				parse_mode: "Markdown",
 				disable_web_page_preview: true,
+				reply_markup: {
+					inline_keyboard: [
+						[
+							{
+								text: "Legu pli pri la vorto",
+								url: `http://www.simplavortaro.org/ser%c4%89o?s=${vorto.toLowerCase()}`,
+							},
+						],
+					],
+				},
 			});
 		} else {
 			const respondo = `La vorto ${vorto} ne estis trovita.`;
