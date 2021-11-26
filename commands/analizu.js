@@ -17,39 +17,44 @@ module.exports = {
 			return -1;
 		}
 
+		ctx.state.saluti = "saluton";
+
 		const vorto = teksto.toString();
 
 		const vortaro = `http://simplavortaro.org/api/v1/trovi/${vorto}`;
 		const sercxado = await fetch(vortaro)
 			.then((sercxo) => sercxo.json())
-			.then((vortfarado) => vortfarado.vortfarado[0])
-			.then((vorto) => {
-				const rezulto = vorto.rezulto;
-				const partoj = vorto.partoj
-					.filter((vorto) => vorto.vorto !== null)
-					.map((vorto) => vorto.vorto);
-				return {
-					rezulto,
-					partoj,
-				};
-			})
 			.catch(() => "error");
 
+		ctx.db.vortfarado = sercxado;
+		ctx.db.vorto = vorto;
+
+		const vortfaradoj = sercxado.vortfarado.map(
+			(vortfarado) => vortfarado.rezulto
+		);
+
 		if (sercxado !== "error") {
-			let vortfarado = sercxado.rezulto;
-			let partoj = sercxado.partoj
-				.map(
-					(parto) =>
-						`[${parto.toUpperCase()}](http://www.simplavortaro.org/ser%c5%89o?s=${vorto.toLowerCase()})`
-				)
-				.reduce((a, b) => `${a}\n${b}`);
+			const butonoj = vortfaradoj.map((rezulto) => [
+				{ text: rezulto, callback_data: `vortfarado_${rezulto}` },
+			]);
 
-			const respondo = `[${vorto.toUpperCase()}](http://www.simplavortaro.org/ser%c5%89o?s=${vorto.toLowerCase()}):\n${vortfarado}\n\n${partoj}\n\n[Legu pli pri la vorto](http://www.simplavortaro.org/ser%c5%89o?s=${vorto.toLowerCase()})`;
+			butonoj.push([
+				{
+					text: `Legu pli pri la vorto "${vorto}"`,
+					url: `http://www.simplavortaro.org/ser%c5%89o?s=${vorto.toLowerCase()}`,
+				},
+			]);
 
-			ctx.reply(respondo, {
+			const respondo = `${vorto.toUpperCase()}:`;
+
+			ctx.telegram.sendMessage(ctx.chat.id, respondo, {
 				parse_mode: "Markdown",
 				disable_web_page_preview: true,
+				reply_markup: {
+					inline_keyboard: butonoj,
+				},
 			});
+
 		} else {
 			const respondo = `La vorto ${vorto} ne estis trovita.`;
 			ctx.reply(respondo);

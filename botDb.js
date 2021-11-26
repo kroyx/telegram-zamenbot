@@ -1,5 +1,4 @@
 module.exports = {
-	vorto: "",
 	kursoj: [
 		[{ text: "Duolingo", url: "https://en.duolingo.com/course/eo/es/Learn-Esperanto" }],
 		[{ text: "Lernu", url: "https://lernu.net/kurso/nakamura" }],
@@ -9,5 +8,8 @@ module.exports = {
 		[{ text: "Esperanto Lessons", url: "https://www.youtube.com/playlist?list=PL7dmEsGY9uErnH_h3SxsrZvIaA8LDZWTh" }],
 		[{ text: "Jubilo", url: "http://jubilo.ca/esperanto/kurso/unikodo" }],
 	],
+	vorto: "",
+	vortfarado: {},
+	vortfaradaRezulto: "",
 	podkastoj: {}
 }
