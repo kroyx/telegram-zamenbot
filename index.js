@@ -33,6 +33,13 @@ for (const dosiero of komandDosieroj) {
 	bot.command(command.name, (ctx, next) => command.execute(ctx, next));
 }
 
+bot.telegram.setMyCommands([
+	{ command: "difinu", description: "Mi donos al vi difinon de la vorto" },
+	{ command: "traduku", description: "Mi donos al vi tradukon de vorto" },
+	{ command: "analizu", description: "Mi donos al vi la vorton dividitan en siaj partoj", },
+	{ command: "kursoj", description: "Mi donos al vi liston de esperantaj kursoj", },
+]);
+
 // Actions Handler
 const agDosieroj = fs
 	.readdirSync("./actions")
