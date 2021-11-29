@@ -1,7 +1,8 @@
 const fetch = require("node-fetch");
 
 module.exports = {
-	name: ["traduku", "Traduku"],
+	name: "traduku",
+	description: "Mi donos al vi tradukojn de la vorto.",
 	async execute(ctx) {
 		const teksto = ctx.message.text.split(" ");
 		teksto.shift();
@@ -34,29 +35,32 @@ module.exports = {
 			)
 			.catch(() => "error");
 
-		if (sercxado !== "error") {
-			const tradukoj = sercxado[0]
-				.map((traduko) => `${traduko.lingvo}: ${traduko.traduko}.`)
-				.sort()
-				.reduce((a, b) => `${a}\n${b}`);
-			const respondo = `[${vorto.toUpperCase()}](http://www.simplavortaro.org/ser%c4%89o?s=${vorto.toLowerCase()}):\n\n\`\`\`\n${tradukoj}\`\`\``;
-			ctx.telegram.sendMessage(ctx.chat.id, respondo, {
-				parse_mode: "Markdown",
-				disable_web_page_preview: true,
-				reply_markup: {
-					inline_keyboard: [
-						[
-							{
-								text: "Legu pli pri la vorto",
-								url: `http://www.simplavortaro.org/ser%c4%89o?s=${vorto.toLowerCase()}`,
-							},
-						],
-					],
-				},
-			});
-		} else {
+		if (sercxado === "error") {
 			const respondo = `La vorto ${vorto} ne estis trovita.`;
 			ctx.reply(respondo);
+			return -1;
 		}
+
+		const tradukoj = sercxado[0]
+			.map((traduko) => `${traduko.lingvo}: ${traduko.traduko}.`)
+			.sort()
+			.reduce((a, b) => `${a}\n${b}`);
+
+		const respondo = `${vorto.toUpperCase()}:\n\n\`\`\`\n${tradukoj}\`\`\``;
+
+		ctx.telegram.sendMessage(ctx.chat.id, respondo, {
+			parse_mode: "Markdown",
+			disable_web_page_preview: true,
+			reply_markup: {
+				inline_keyboard: [
+					[
+						{
+							text: "Legu pli pri la vorto",
+							url: `http://www.simplavortaro.org/ser%c4%89o?s=${vorto.toLowerCase()}`,
+						},
+					],
+				],
+			},
+		});
 	},
 };

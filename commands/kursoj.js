@@ -1,5 +1,6 @@
 module.exports = {
-	name: ["kurso", "kursoj", "Kurso", "Kursoj"],
+	name: "kursoj",
+	description: "Mi donos al vi liston de esperantaj kursoj",
 	execute(ctx) {
 		ctx.telegram.sendMessage(
 			ctx.chat.id,

@@ -1,7 +1,8 @@
 const fetch = require("node-fetch");
 
 module.exports = {
-	name: ["analizu", "Analizu"],
+	name: "analizu",
+	description: "Mi donos al vi la vorton dividitan en siaj partoj",
 	async execute(ctx) {
 		const teksto = ctx.message.text.split(" ");
 		teksto.shift();
@@ -33,31 +34,31 @@ module.exports = {
 			(vortfarado) => vortfarado.rezulto
 		);
 
-		if (sercxado !== "error") {
-			const butonoj = vortfaradoj.map((rezulto) => [
-				{ text: rezulto, callback_data: `vortfarado_${rezulto}` },
-			]);
-
-			butonoj.push([
-				{
-					text: `Legu pli pri la vorto "${vorto}"`,
-					url: `http://www.simplavortaro.org/ser%c5%89o?s=${vorto.toLowerCase()}`,
-				},
-			]);
-
-			const respondo = `${vorto.toUpperCase()}:`;
-
-			ctx.telegram.sendMessage(ctx.chat.id, respondo, {
-				parse_mode: "Markdown",
-				disable_web_page_preview: true,
-				reply_markup: {
-					inline_keyboard: butonoj,
-				},
-			});
-
-		} else {
+		if (sercxado === "error") {
 			const respondo = `La vorto ${vorto} ne estis trovita.`;
 			ctx.reply(respondo);
+			return -1;
 		}
+
+		const butonoj = vortfaradoj.map((rezulto) => [
+			{ text: rezulto, callback_data: `vortfarado_${rezulto}` },
+		]);
+
+		butonoj.push([
+			{
+				text: `Legu pli pri la vorto "${vorto}"`,
+				url: `http://www.simplavortaro.org/ser%c5%89o?s=${vorto.toLowerCase()}`,
+			},
+		]);
+
+		const respondo = `${vorto.toUpperCase()}:`;
+
+		ctx.telegram.sendMessage(ctx.chat.id, respondo, {
+			parse_mode: "Markdown",
+			disable_web_page_preview: true,
+			reply_markup: {
+				inline_keyboard: butonoj,
+			},
+		});
 	},
 };
