@@ -5,42 +5,27 @@ dotenv.config();
 
 const bot = new Telegraf(process.env.BOTTOKEN);
 
-const helpMesagxo = `
-Diru ion al mi
-/start - Komencu la roboton.
-/difinu - Mi donos al vi difinon de vorto.
-/traduku - Mi donos al vi tradukojn de vorto.
-/analizu - Mi donos al vi la vorton dividitan en siaj partoj.
-/kursoj - Mi donos al vi liston de esperantaj kursoj.
-/help - referenco de komandoj`;
-
-bot.start((ctx) => {
-	ctx.reply("Saluton mi estas SimplaVortaro Roboto");
-	ctx.reply(helpMesagxo);
-});
-
-bot.help((ctx) => {
-	ctx.reply(helpMesagxo);
-});
+let setMyCommands = [];
 
 // Commands Handler
+
 const komandDosieroj = fs
 	.readdirSync("./commands")
 	.filter((dosiero) => dosiero.endsWith(".js"));
 
 for (const dosiero of komandDosieroj) {
 	const command = require(`./commands/${dosiero}`);
+	setMyCommands.push({
+		command: command.name,
+		description: command.description,
+	});
 	bot.command(command.name, (ctx, next) => command.execute(ctx, next));
 }
 
-bot.telegram.setMyCommands([
-	{ command: "difinu", description: "Mi donos al vi difinon de la vorto" },
-	{ command: "traduku", description: "Mi donos al vi tradukon de vorto" },
-	{ command: "analizu", description: "Mi donos al vi la vorton dividitan en siaj partoj", },
-	{ command: "kursoj", description: "Mi donos al vi liston de esperantaj kursoj", },
-]);
+bot.telegram.setMyCommands(setMyCommands);
 
 // Actions Handler
+
 const agDosieroj = fs
 	.readdirSync("./actions")
 	.filter((dosiero) => dosiero.endsWith(".js"));
@@ -50,9 +35,19 @@ for (const dosiero of agDosieroj) {
 	bot.action(action.name, (ctx, next) => action.execute(ctx, next));
 }
 
+const helpaMesagxo = setMyCommands
+	.map((command) => `/${command.command} - ${command.description}`)
+	.reduce((a, b) => `${a}\n${b}`);
+
 // Context Db
 bot.context.db = require("./botDb");
 
+bot.start((ctx) => {
+	ctx.reply("Saluton Esperantisto, mi donos al vi la liston de miaj komandoj");
+	ctx.reply(helpaMesagxo);
+});
+
+// Lanĉu la roboton
 bot.launch({
 	dropPendingUpdates: true,
 });
