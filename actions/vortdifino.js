@@ -22,7 +22,7 @@ module.exports = {
 				inline_keyboard: [
 					[
 						{
-							text: "Iru Antaŭen",
+							text: "Reen",
 							callback_data: `vortfarado_${ctx.db.vortfaradaRezulto}`,
 						},
 					],

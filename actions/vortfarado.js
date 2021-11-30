@@ -16,7 +16,7 @@ module.exports = {
 			{ text: vorto, callback_data: `parto_${vorto}` },
 		]);
 
-		butonoj.push([{ text: "Iru Antaŭen", callback_data: "analizaMenuo" }]);
+		butonoj.push([{ text: "Reen", callback_data: "analizaMenuo" }]);
 
 		ctx.deleteMessage();
 		ctx.telegram.sendMessage(ctx.chat.id, titolo, {
