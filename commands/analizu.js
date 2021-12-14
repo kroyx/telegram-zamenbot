@@ -18,8 +18,6 @@ module.exports = {
 			return -1;
 		}
 
-		ctx.state.saluti = "saluton";
-
 		const vorto = teksto.toString();
 
 		const vortaro = `http://simplavortaro.org/api/v1/trovi/${vorto}`;
@@ -27,8 +25,11 @@ module.exports = {
 			.then((sercxo) => sercxo.json())
 			.catch(() => "error");
 
-		ctx.db.vortfarado = sercxado;
-		ctx.db.vorto = vorto;
+		ctx.session ??= {
+			vortfarado: sercxado,
+			vorto: vorto,
+			vortfaradaRezulto: "",
+		};
 
 		const vortfaradoj = sercxado.vortfarado.map(
 			(vortfarado) => vortfarado.rezulto

@@ -1,9 +1,13 @@
 module.exports = {
 	name: "analizaMenuo",
 	execute(ctx) {
-		const vorto = ctx.db.vorto;
+		if (ctx.session === undefined) {
+			ctx.reply("Enmetu la komandon denove");
+			return;
+		}
+		const vorto = ctx.session.vorto;
 		const titolo = vorto.toUpperCase();
-		const partoj = ctx.db.vortfarado;
+		const partoj = ctx.session.vortfarado;
 		const vortfaradoj = partoj.vortfarado.map(
 			(vortfarado) => vortfarado.rezulto
 		);

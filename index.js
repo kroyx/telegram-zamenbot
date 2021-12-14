@@ -1,9 +1,11 @@
-const { Telegraf } = require("telegraf");
+const { Telegraf, session } = require("telegraf");
 const fs = require("fs");
 const dotenv = require("dotenv");
 dotenv.config();
 
 const bot = new Telegraf(process.env.BOTTOKEN);
+
+bot.use(session());
 
 let setMyCommands = [];
 

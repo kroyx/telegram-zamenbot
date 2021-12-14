@@ -3,6 +3,10 @@ const fetch = require("node-fetch");
 module.exports = {
 	name: /parto_/,
 	async execute(ctx) {
+		if (ctx.session === undefined) {
+			ctx.reply("Enmetu la komandon denove");
+			return -1;
+		}
 		const vorto = ctx.match.input.split("_")[1];
 		const vortaro = `http://www.simplavortaro.org/api/v1/vorto/${vorto.toLowerCase()}`;
 		const sercxado = await fetch(vortaro)
@@ -23,7 +27,7 @@ module.exports = {
 					[
 						{
 							text: "Reen",
-							callback_data: `vortfarado_${ctx.db.vortfaradaRezulto}`,
+							callback_data: `vortfarado_${ctx.session.vortfaradaRezulto}`,
 						},
 					],
 				],

@@ -1,17 +1,23 @@
 module.exports = {
 	name: /vortfarado_/,
 	execute(ctx) {
+		if (ctx.session === undefined) {
+			ctx.reply("Enmetu la komandon denove");
+			return -1;
+		}
+
 		const rezulto = ctx.match.input.split("_")[1];
-		ctx.db.vortfaradaRezulto = rezulto;
+		ctx.session.vortfaradaRezulto = rezulto;
 
 		if (
-			ctx.db.vortfarado.vortfarado === undefined ||
-			ctx.db.vortfarado.vortfarado[0].partoj.partoj === undefined
+			ctx.session.vortfarado.vortfarado === undefined ||
+			ctx.session.vortfarado.vortfarado[0].partoj === undefined
 		) {
 			ctx.deleteMessage();
 			return -1;
 		}
-		const vortfarado = ctx.db.vortfarado.vortfarado.filter(
+
+		const vortfarado = ctx.session.vortfarado.vortfarado.filter(
 			(vortfarado) => vortfarado.rezulto === rezulto
 		);
 

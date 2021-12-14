@@ -8,8 +8,5 @@ module.exports = {
 		[{ text: "Esperanto Lessons", url: "https://www.youtube.com/playlist?list=PL7dmEsGY9uErnH_h3SxsrZvIaA8LDZWTh" }],
 		[{ text: "Jubilo", url: "http://jubilo.ca/esperanto/kurso/unikodo" }],
 	],
-	vorto: "",
-	vortfarado: {},
-	vortfaradaRezulto: "",
 	podkastoj: {}
 }
