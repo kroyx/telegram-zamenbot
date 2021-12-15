@@ -41,9 +41,6 @@ const helpaMesagxo = setMyCommands
 	.map((command) => `/${command.command} - ${command.description}`)
 	.reduce((a, b) => `${a}\n${b}`);
 
-// Context Db
-bot.context.db = require("./botDb");
-
 bot.start((ctx) => {
 	ctx.reply("Saluton Esperantisto, mi donos al vi la liston de miaj komandoj");
 	ctx.reply(helpaMesagxo);
