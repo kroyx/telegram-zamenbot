@@ -1,4 +1,4 @@
-const fetch = require("node-fetch");
+const { difinu } = require("../utils/simplaVortaro");
 
 module.exports = {
 	name: /parto_/,
@@ -7,18 +7,13 @@ module.exports = {
 			ctx.reply("Enmetu la komandon denove");
 			return -1;
 		}
-		const vorto = ctx.match.input.split("_")[1];
-		const vortaro = `http://www.simplavortaro.org/api/v1/vorto/${vorto.toLowerCase()}`;
-		const sercxado = await fetch(vortaro)
-			.then((sercxo) => sercxo.json())
-			.then((sercxoJson) => sercxoJson.difinoj.map((vorto) => vorto.difino))
-			.then((difinoj) => difinoj.filter((difino) => difino !== null))
-			.then((respondo) => respondo.reduce((a, b) => `${a}\n\n${b}`))
-			.catch(() => "error");
 
+		const vorto = ctx.match.input.split("_")[1];
+		const sercxado = await difinu(vorto);
 		const respondo = `${vorto.toUpperCase()}:\n\n${sercxado})`;
 
 		ctx.deleteMessage();
+
 		ctx.telegram.sendMessage(ctx.chat.id, respondo, {
 			parse_mode: "Markdown",
 			disable_web_page_preview: true,

@@ -34,6 +34,7 @@ module.exports = {
 		butonoj.push([{ text: "Reen", callback_data: "analizaMenuo" }]);
 
 		ctx.deleteMessage();
+
 		ctx.telegram.sendMessage(ctx.chat.id, titolo, {
 			reply_markup: {
 				inline_keyboard: butonoj,

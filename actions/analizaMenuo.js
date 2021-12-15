@@ -5,12 +5,14 @@ module.exports = {
 			ctx.reply("Enmetu la komandon denove");
 			return;
 		}
+
 		const vorto = ctx.session.vorto;
 		const titolo = vorto.toUpperCase();
 		const partoj = ctx.session.vortfarado;
 		const vortfaradoj = partoj.vortfarado.map(
 			(vortfarado) => vortfarado.rezulto
 		);
+
 		const butonoj = vortfaradoj.map((rezulto) => [
 			{ text: rezulto, callback_data: `vortfarado_${rezulto}` },
 		]);
@@ -20,7 +22,9 @@ module.exports = {
 				url: `http://www.simplavortaro.org/ser%c5%89o?s=${vorto.toLowerCase()}`,
 			},
 		]);
+
 		ctx.deleteMessage();
+
 		ctx.telegram.sendMessage(ctx.chat.id, `${titolo}:`, {
 			reply_markup: {
 				inline_keyboard: butonoj,
