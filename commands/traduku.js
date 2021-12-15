@@ -1,4 +1,4 @@
-const fetch = require("node-fetch");
+const { traduku } = require("../utils/simplaVortaro");
 
 module.exports = {
 	name: "traduku",
@@ -20,20 +20,7 @@ module.exports = {
 
 		const vorto = teksto.toString();
 
-		const vortaro = `http://www.simplavortaro.org/api/v1/vorto/${vorto}`;
-		const sercxado = await fetch(vortaro)
-			.then((sercxo) => sercxo.json())
-			.then((sercxoJson) =>
-				sercxoJson.difinoj.map((vorto) =>
-					vorto.tradukoj.map((tradukado) => {
-						return {
-							lingvo: tradukado.lingvo,
-							traduko: tradukado.traduko,
-						};
-					})
-				)
-			)
-			.catch(() => "error");
+		const sercxado = await traduku(vorto);
 
 		if (sercxado === "error") {
 			const respondo = `La vorto ${vorto} ne estis trovita.`;
@@ -47,6 +34,8 @@ module.exports = {
 			.reduce((a, b) => `${a}\n${b}`);
 
 		const respondo = `${vorto.toUpperCase()}:\n\n\`\`\`\n${tradukoj}\`\`\``;
+
+		ctx.deleteMessage();
 
 		ctx.telegram.sendMessage(ctx.chat.id, respondo, {
 			parse_mode: "Markdown",

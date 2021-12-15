@@ -1,3 +1,4 @@
+const { kursoj } = require("../utils/rimedoj");
 module.exports = {
 	name: "kursoj",
 	description: "Mi donos al vi liston de esperantaj kursoj",
@@ -7,7 +8,7 @@ module.exports = {
 			"Mi montras al vi liston de kursoj.",
 			{
 				reply_markup: {
-					inline_keyboard: ctx.db.kursoj,
+					inline_keyboard: kursoj,
 				},
 			}
 		);

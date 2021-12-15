@@ -1,4 +1,4 @@
-const fetch = require("node-fetch");
+const { analizu } = require("../utils/simplaVortaro");
 
 module.exports = {
 	name: "analizu",
@@ -20,10 +20,7 @@ module.exports = {
 
 		const vorto = teksto.toString();
 
-		const vortaro = `http://simplavortaro.org/api/v1/trovi/${vorto}`;
-		const sercxado = await fetch(vortaro)
-			.then((sercxo) => sercxo.json())
-			.catch(() => "error");
+		const sercxado = await analizu(vorto);
 
 		ctx.session ??= {
 			vortfarado: sercxado,
@@ -53,6 +50,8 @@ module.exports = {
 		]);
 
 		const respondo = `${vorto.toUpperCase()}:`;
+
+		ctx.deleteMessage();
 
 		ctx.telegram.sendMessage(ctx.chat.id, respondo, {
 			parse_mode: "Markdown",
